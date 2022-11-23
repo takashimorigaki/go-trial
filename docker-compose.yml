@@ -1,0 +1,42 @@
+version: '3'
+networks:
+  go-trial-network:
+    driver: bridge
+volumes:
+  db-data:
+    driver: local
+
+services:
+  api:
+    container_name: go-trial-api
+    build: .
+    tty: true
+    stdin_open: true
+    depends_on:
+      - db
+    volumes:
+      - ./api:/go-trial/api
+    command: >
+      bash -c "/bin/bash"
+    ports:
+      - "3000:3000"
+    networks:
+      - go-trial-network
+  db:
+    container_name: go-trial-db
+    image: postgres:14.3
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: pg-db
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --locale=C"
+      PGDATA: /var/lib/postgresql/data
+      TZ: Asia/Tokyo
+      LANG: ja_JP.UTF-8
+    volumes:
+      - .docker-compose-cache/postgres:/var/lib/postgresql/data
+    command: postgres -c stats_temp_directory=/tmp
+    ports:
+      - "5432:5432"
+    networks:
+      - go-trial-network
