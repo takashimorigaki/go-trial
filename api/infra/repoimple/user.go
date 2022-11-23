@@ -24,3 +24,13 @@ func (ur UserRepoimple) GetList() ([]model.User, error) {
 	}
 	return users, nil
 }
+
+func (ur UserRepoimple) Create(user model.User) (model.User, error) {
+	db := ur.db
+
+	err := db.Create(&user).Error
+	if err != nil {
+		return user, err
+	}
+	return user, nil
+}

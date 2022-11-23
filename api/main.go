@@ -24,6 +24,7 @@ func main() {
 	userRouter := router.Group("/user")
 	{
 		userRouter.GET("/", userHandler.GetList)
+		userRouter.POST("/", userHandler.Create)
 	}
 
 	router.Run(":3000")

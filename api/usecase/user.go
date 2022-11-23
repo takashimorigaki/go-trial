@@ -23,3 +23,17 @@ func (uu UserUsecase) GetList() ([]model.User, error) {
 	}
 	return users, err
 }
+
+func (uu UserUsecase) Create(name string) (model.User, error) {
+	user, err := model.SetNewUser(name)
+	if err != nil {
+		return user, err
+	}
+	// uu.userRepo には userRepoimple が注入されているため
+	// userRepoimple.GetList() が実行される
+	createdUser, err := uu.userRepo.Create(user)
+	if err != nil {
+		return createdUser, err
+	}
+	return createdUser, nil
+}
