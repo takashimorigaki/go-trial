@@ -25,6 +25,7 @@ func main() {
 	{
 		userRouter.GET("/", userHandler.GetList)
 		userRouter.POST("/", userHandler.Create)
+		userRouter.GET("/:id", userHandler.GetSingle)
 	}
 
 	router.Run(":3000")

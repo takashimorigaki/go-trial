@@ -37,3 +37,13 @@ func (uu UserUsecase) Create(name string) (model.User, error) {
 	}
 	return createdUser, nil
 }
+
+func (uu UserUsecase) GetSingle(id string) (model.User, error) {
+	// uu.userRepo には userRepoimple が注入されているため
+	// userRepoimple.GetList() が実行される
+	user, err := uu.userRepo.GetSingle(id)
+	if err != nil {
+		return user, err
+	}
+	return user, nil
+}

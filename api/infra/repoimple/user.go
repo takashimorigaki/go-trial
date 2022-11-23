@@ -34,3 +34,14 @@ func (ur UserRepoimple) Create(user model.User) (model.User, error) {
 	}
 	return user, nil
 }
+
+func (ur UserRepoimple) GetSingle(id string) (model.User, error) {
+	db := ur.db
+
+	var user model.User
+	err := db.First(&user, "id = ?", id).Error
+	if err != nil {
+		return user, err
+	}
+	return user, nil
+}

@@ -41,3 +41,17 @@ func (uh UserHandler) Create(c *gin.Context) {
 		"user": user,
 	})
 }
+
+func (uh UserHandler) GetSingle(c *gin.Context) {
+	id := c.Param("id")
+	user, err := uh.userUsecase.GetSingle(id)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"error": err.Error(),
+		})
+		panic(err)
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"user": user,
+	})
+}
