@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"go-trial/domain/model"
 	"time"
 
 	"github.com/jinzhu/gorm"
@@ -35,4 +36,17 @@ func ConnectDatabase() *gorm.DB {
 	}
 	fmt.Println("db connection success")
 	return db
+}
+
+func MigrateDatabase() *gorm.DB {
+	fmt.Println("db migration start")
+	db := ConnectDatabase()
+	autoMigrate(db)
+	fmt.Println("db migration success")
+
+	return db
+}
+
+func autoMigrate(db *gorm.DB) {
+	db.AutoMigrate(&model.User{})
 }
