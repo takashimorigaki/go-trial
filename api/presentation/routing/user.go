@@ -12,7 +12,7 @@ import (
 func UserRouting(db *gorm.DB, router *gin.Engine) {
 	// DI: DependencyInjection: 依存性の注入
 	userRepoimple := repoimple.SetUserRepoimple(db)
-	// 変数の userRepo に userRepoimple を注入する
+	// 変数の userRepo: interface に userRepoimple を注入する
 	userUsecase := usecase.SetUserUsecase(userRepoimple)
 	userHandler := handler.SetUserHandler(userUsecase)
 	userRouter := router.Group("/user")

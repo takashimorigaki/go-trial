@@ -1,4 +1,4 @@
-https://github.com/gs1068/golang-ddd-sample
+ref: https://github.com/gs1068/golang-ddd-sample
 
 ## initial
 - `% docker-compose build`
