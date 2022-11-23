@@ -15,3 +15,12 @@ func SetNewUser(name string) (User, error) {
 	user := User{Name: name}
 	return user, nil
 }
+
+func (u User) SetUser(name string) (User, error) {
+	if name == "" {
+		err := errors.New("name is required")
+		return u, err
+	}
+	u.Name = name
+	return u, nil
+}

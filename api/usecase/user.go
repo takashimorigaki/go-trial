@@ -24,6 +24,16 @@ func (uu UserUsecase) GetList() ([]model.User, error) {
 	return users, err
 }
 
+func (uu UserUsecase) GetSingle(id string) (model.User, error) {
+	// uu.userRepo には userRepoimple が注入されているため
+	// userRepoimple.GetList() が実行される
+	user, err := uu.userRepo.GetSingle(id)
+	if err != nil {
+		return user, err
+	}
+	return user, nil
+}
+
 func (uu UserUsecase) Create(name string) (model.User, error) {
 	user, err := model.SetNewUser(name)
 	if err != nil {
@@ -38,12 +48,20 @@ func (uu UserUsecase) Create(name string) (model.User, error) {
 	return createdUser, nil
 }
 
-func (uu UserUsecase) GetSingle(id string) (model.User, error) {
-	// uu.userRepo には userRepoimple が注入されているため
-	// userRepoimple.GetList() が実行される
+func (uu UserUsecase) Update(id string, name string) (model.User, error) {
 	user, err := uu.userRepo.GetSingle(id)
 	if err != nil {
 		return user, err
 	}
-	return user, nil
+	user, err = user.SetUser(name)
+	if err != nil {
+		return user, err
+	}
+	// uu.userRepo には userRepoimple が注入されているため
+	// userRepoimple.GetList() が実行される
+	updatedUser, err := uu.userRepo.Update(user)
+	if err != nil {
+		return updatedUser, err
+	}
+	return updatedUser, nil
 }
