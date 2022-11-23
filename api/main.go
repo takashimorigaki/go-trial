@@ -2,9 +2,8 @@ package main
 
 import (
 	"go-trial/infra/config"
-	"go-trial/infra/repoimple"
-	"go-trial/presentation/handler"
-	"go-trial/usecase"
+	"go-trial/presentation/routing"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -16,19 +15,6 @@ func main() {
 
 	// routing
 	router := gin.Default()
-
-	// user
-	userRepoimple := repoimple.SetUserRepoimple(db)
-	userUsecase := usecase.SetUserUsecase(userRepoimple)
-	userHandler := handler.SetUserHandler(userUsecase)
-	userRouter := router.Group("/user")
-	{
-		userRouter.GET("/", userHandler.GetList)
-		userRouter.POST("/", userHandler.Create)
-		userRouter.GET("/:id", userHandler.GetSingle)
-		userRouter.PUT("/:id", userHandler.Update)
-		userRouter.DELETE("/:id", userHandler.Delete)
-	}
-
+	routing.UserRouting(db, router)
 	router.Run(":3000")
 }
