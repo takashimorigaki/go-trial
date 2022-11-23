@@ -55,3 +55,13 @@ func (ur UserRepoimple) Update(user model.User) (model.User, error) {
 	}
 	return user, nil
 }
+
+func (ur UserRepoimple) Delete(user model.User) (model.User, error) {
+	db := ur.db
+
+	err := db.Delete(&user).Error
+	if err != nil {
+		return user, err
+	}
+	return user, nil
+}

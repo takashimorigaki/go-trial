@@ -65,3 +65,17 @@ func (uu UserUsecase) Update(id string, name string) (model.User, error) {
 	}
 	return updatedUser, nil
 }
+
+func (uu UserUsecase) Delete(id string) (model.User, error) {
+	user, err := uu.userRepo.GetSingle(id)
+	if err != nil {
+		return user, err
+	}
+	// uu.userRepo には userRepoimple が注入されているため
+	// userRepoimple.GetList() が実行される
+	deletedUser, err := uu.userRepo.Delete(user)
+	if err != nil {
+		return deletedUser, err
+	}
+	return deletedUser, nil
+}

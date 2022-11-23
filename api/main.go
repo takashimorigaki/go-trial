@@ -27,6 +27,7 @@ func main() {
 		userRouter.POST("/", userHandler.Create)
 		userRouter.GET("/:id", userHandler.GetSingle)
 		userRouter.PUT("/:id", userHandler.Update)
+		userRouter.DELETE("/:id", userHandler.Delete)
 	}
 
 	router.Run(":3000")
