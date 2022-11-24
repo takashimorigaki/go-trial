@@ -26,7 +26,7 @@ func (uu UserUsecase) GetList() ([]model.User, error) {
 
 func (uu UserUsecase) GetSingle(id string) (model.User, error) {
 	// uu.userRepo には userRepoimple が注入されているため
-	// userRepoimple.GetSingle() が実行される
+	// userRepoimple.GetSingle(id) が実行される
 	user, err := uu.userRepo.GetSingle(id)
 	if err != nil {
 		return user, err
@@ -35,12 +35,12 @@ func (uu UserUsecase) GetSingle(id string) (model.User, error) {
 }
 
 func (uu UserUsecase) Create(name string) (model.User, error) {
-	user, err := model.SetNewUser(name)
+	user, err := model.InitUser(name)
 	if err != nil {
 		return user, err
 	}
 	// uu.userRepo には userRepoimple が注入されているため
-	// userRepoimple.Create() が実行される
+	// userRepoimple.Create(user) が実行される
 	createdUser, err := uu.userRepo.Create(user)
 	if err != nil {
 		return createdUser, err
@@ -53,12 +53,14 @@ func (uu UserUsecase) Update(id string, name string) (model.User, error) {
 	if err != nil {
 		return user, err
 	}
-	user, err = user.SetUser(name)
+
+	// 構造体の中身を操作時: 引数の構造体を &(ポインタ)で投げて *(変数)で受け取る
+	err = model.ChangeField(&user, name)
 	if err != nil {
 		return user, err
 	}
 	// uu.userRepo には userRepoimple が注入されているため
-	// userRepoimple.Update() が実行される
+	// userRepoimple.Update(user) が実行される
 	updatedUser, err := uu.userRepo.Update(user)
 	if err != nil {
 		return updatedUser, err
@@ -72,7 +74,7 @@ func (uu UserUsecase) Delete(id string) (model.User, error) {
 		return user, err
 	}
 	// uu.userRepo には userRepoimple が注入されているため
-	// userRepoimple.Delete() が実行される
+	// userRepoimple.Delete(user) が実行される
 	deletedUser, err := uu.userRepo.Delete(user)
 	if err != nil {
 		return deletedUser, err
